@@ -1,25 +1,19 @@
-import { Breadcrumbs, Link, Typography, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import './IndexPage.scss';
 import { Table } from 'widgets/Table';
+import { Breadcrumbs } from 'widgets/Breadcrumbs';
 
 export const IndexPage = () => (
-  <div>
-    <Breadcrumbs
-      aria-label="breadcrumb"
-      className="breadcrumbs"
-    >
-      <Link
-        underline="hover"
-        color="primary"
-        href="/"
-      >
-        Главная
-      </Link>
-      <Typography color="text.primary">Пользователи</Typography>
-    </Breadcrumbs>
+  <div className="indexPage">
+    {/* todo: make universal component */}
+    <Breadcrumbs />
     <Button
       className="btn"
       href="/create"
+      sx={{
+        width: 'max-content',
+        textTransform: 'initial',
+      }}
     >
       Добавить пользователя
     </Button>
