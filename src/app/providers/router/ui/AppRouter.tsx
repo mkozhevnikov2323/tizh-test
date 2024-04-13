@@ -1,21 +1,28 @@
-import { Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { routeConfig } from 'shared/config/routeConfig/routeConfig';
-import { PageLoader } from 'shared/ui/PageLoader/PageLoader';
+import { Layout } from 'app/providers/layout';
+import { CreatePage } from 'pages/User/Create';
+import { IndexPage } from 'pages/User/Index';
+import { UpdatePage } from 'pages/User/Update';
+import { ViewPage } from 'pages/User/View';
+import { Link, Route, Routes } from 'react-router-dom';
 
 const AppRouter = () => (
   <Routes>
-    {Object.values(routeConfig).map(({ path, element }) => (
-      <Route
-        key={path}
-        path={path}
-        element={
-          <Suspense fallback={<PageLoader />}>
-            <div className="page-wrapper">{element}</div>
-          </Suspense>
-        }
-      />
-    ))}
+    <Route
+      path="/"
+      element={<IndexPage />}
+    />
+    <Route
+      path="create"
+      element={<CreatePage />}
+    />
+    <Route
+      path="view/:id"
+      element={<ViewPage />}
+    />
+    <Route
+      path="update/:id"
+      element={<UpdatePage />}
+    />
   </Routes>
 );
 

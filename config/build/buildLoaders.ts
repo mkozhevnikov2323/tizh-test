@@ -20,19 +20,19 @@ export function buildloaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
   };
 
   const cssLoader = {
-    test: /\.s[ac]ss$/i,
+    test: /\.(s[ac]ss|css)$/i,
     use: [
       isDev ? 'style-loader' : MiniCssExtractPlugin.loader,
       {
         loader: 'css-loader',
-        options: {
-          modules: {
-            auto: (resPath: string) => Boolean(resPath.includes('.module.')),
-            localIdentName: isDev
-              ? '[path][name]__[local]--[hash:base64:5]'
-              : '[hash:base64:8]',
-          },
-        },
+        // options: {
+        //   modules: {
+        //     auto: (resPath: string) => Boolean(resPath.includes('.module.')),
+        //     localIdentName: isDev
+        //       ? '[path][name]__[local]--[hash:base64:5]'
+        //       : '[hash:base64:8]',
+        //   },
+        // },
       },
       'sass-loader',
     ],
@@ -45,7 +45,7 @@ export function buildloaders({ isDev }: BuildOptions): webpack.RuleSetRule[] {
   };
 
   const fileLoader = {
-    test: /\.(png|jpe?g|gif)$/i,
+    test: /\.(png|jpe?g|gif|woff|woff2|eot|ttf|otf)$/i,
     use: [
       {
         loader: 'file-loader',
