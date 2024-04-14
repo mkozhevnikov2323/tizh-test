@@ -1,25 +1,31 @@
-import { TextField } from '@mui/material';
+import { Avatar, TextField } from '@mui/material';
 import './Table.scss';
 import { DatePicker } from 'widgets/DatePicker';
 import { ReactNode, useEffect, useState } from 'react';
 import { getUsers } from 'features/api/user/getUsers';
-import { getUserPhoto } from 'features/api/file/getUserPhoto';
+import { foodList } from 'shared/lib/constants';
+import { UserSearchByIdField } from 'features/search/userById';
 
 export function Table() {
   const [users, setUsers] = useState([]);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
     getUsers().then((res) => setUsers(res));
   }, []);
 
-  const getPhoto = async (photo_id: string): Promise<string> => {
-    const userPhoto = await getUserPhoto(photo_id);
-    console.log('userPhoto', userPhoto);
-    return '';
-  };
+  const renderFavoriteFood = (favorite_food_ids: any) =>
+    Object.entries(foodList)
+      .filter(([key, value]) => favorite_food_ids.includes(key))
+      .map(([key, value], index, array) => {
+        if (index === array.length - 1) {
+          return value;
+        }
+        return `${value}, `;
+      });
 
   const renderUsers = (users: any): ReactNode =>
-    users.map(
+    users?.map(
       (
         { id, username, email, birthdate, favorite_food_ids, photo_id }: any,
         index: any,
@@ -28,11 +34,13 @@ export function Table() {
           <td>{index + 1}</td>
           <td>{id}</td>
           <td>
-            <img
-              id={photo_id && `${photo_id}`}
-              className="avatar"
-              // src={getPhoto(photo_id)}
-              alt=""
+            <Avatar
+              alt="S"
+              src={photo_id && `http://tasks.tizh.ru/file/get?id=${photo_id}`}
+              sx={{
+                width: '150px',
+                height: '150px',
+              }}
             />
           </td>
           <td>{username}</td>
@@ -40,7 +48,7 @@ export function Table() {
             <a href={`mailto:${email}`}>{email}</a>
           </td>
           <td>{birthdate}</td>
-          <td>{favorite_food_ids}</td>
+          <td>{renderFavoriteFood(favorite_food_ids)}</td>
           <td>
             <a
               href={`/user/view?id=${id}`}
@@ -106,7 +114,7 @@ export function Table() {
   return (
     <>
       <div className="summary">
-        Показаны записи <b>1-{users.length}</b> из <b>{users.length}</b>
+        Показаны записи <b>1-{users?.length}</b> из <b>{users?.length}</b>
       </div>
       <table className="table">
         <thead>
@@ -165,13 +173,11 @@ export function Table() {
           </tr>
           <tr>
             <td>&nbsp;</td>
-            {/* <td><input type="text" className="form-control" name="UserSearch[id]" /></td> */}
             <td>
-              {' '}
-              <TextField
-                id="outlined-search"
-                label="Search field"
-                type="search"
+              <UserSearchByIdField
+                userId={userId}
+                setUserId={setUserId}
+                setUsers={setUsers}
               />
             </td>
             <td>&nbsp;</td>
