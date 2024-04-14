@@ -4,11 +4,11 @@ import { DatePicker } from 'widgets/DatePicker';
 import { ReactNode, useEffect, useState } from 'react';
 import { getUsers } from 'features/api/user/getUsers';
 import { foodList } from 'shared/lib/constants';
-import { UserSearchByIdField } from 'features/search/userById';
+import { UserSearchField, UserSearchFieldByDate } from 'features/search/user';
 
 export function Table() {
   const [users, setUsers] = useState([]);
-  const [userId, setUserId] = useState(null);
+  const [searchParam, setSearchParam] = useState(null);
 
   useEffect(() => {
     getUsers().then((res) => setUsers(res));
@@ -174,31 +174,32 @@ export function Table() {
           <tr>
             <td>&nbsp;</td>
             <td>
-              <UserSearchByIdField
-                userId={userId}
-                setUserId={setUserId}
+              <UserSearchField
+                searchParam={searchParam}
+                setSearchParam={setSearchParam}
                 setUsers={setUsers}
+                searchType="id"
               />
             </td>
             <td>&nbsp;</td>
             <td>
-              {' '}
-              <TextField
-                id="outlined-search"
-                label="Search field"
-                type="search"
+              <UserSearchField
+                searchParam={searchParam}
+                setSearchParam={setSearchParam}
+                setUsers={setUsers}
+                searchType="username"
               />
             </td>
             <td>
-              {' '}
-              <TextField
-                id="outlined-search"
-                label="Search field"
-                type="search"
+              <UserSearchField
+                searchParam={searchParam}
+                setSearchParam={setSearchParam}
+                setUsers={setUsers}
+                searchType="email"
               />
             </td>
             <td>
-              <DatePicker />
+              <UserSearchFieldByDate setUsers={setUsers} />
             </td>
             <td>
               <TextField
