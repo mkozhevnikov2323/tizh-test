@@ -1,7 +1,15 @@
-import { Checkbox, FormControlLabel, FormGroup } from '@mui/material';
+import { Checkbox, FormControlLabel } from '@mui/material';
+import { searchUserByFood } from 'features/api/user/searchUser';
+import { useEffect } from 'react';
 import Select from 'react-select';
 
-export const SelectField = ({ setSelectedOptions, selectedOptions }: any) => {
+export const SelectField = ({
+  setSelectedOptions,
+  selectedOptions,
+  fieldType,
+  setUsers,
+  selectedOptionValues,
+}: any) => {
   const options = [
     { value: '1', label: 'Морковка' },
     { value: '2', label: 'Капуста' },
@@ -10,6 +18,16 @@ export const SelectField = ({ setSelectedOptions, selectedOptions }: any) => {
     { value: '5', label: 'Сосиска' },
     { value: '6', label: 'Пирожок' },
   ];
+
+  if (fieldType === 'search') {
+    useEffect(() => {
+      searchUserByFood(selectedOptionValues)
+        .then((res: any) => {
+          setUsers(res);
+        })
+        .catch((err: any) => console.log('err', err));
+    }, [selectedOptionValues]);
+  }
 
   const handleSelectAll = () => {
     setSelectedOptions(options);
@@ -26,7 +44,7 @@ export const SelectField = ({ setSelectedOptions, selectedOptions }: any) => {
   return (
     <div>
       <FormControlLabel
-        control={<Checkbox defaultChecked />}
+        control={<Checkbox />}
         label="Выбрать все"
         checked={selectedOptions.length === options.length}
         onChange={handleSelectAll}

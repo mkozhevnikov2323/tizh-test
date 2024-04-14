@@ -1,0 +1,33 @@
+.sortLink {
+  position: relative;
+  border: none;
+  color: #007bff;
+  background: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+    color: #0056b3;
+  }
+
+  
+}
+
+.asc::after, .desc::after {
+  content: '';
+  left: 3px;
+  display: inline-block;
+  margin: 4px 4px 2px;
+  border: solid 5px transparent;
+  width: 0;
+  height: 0;
+  background: transparent;}
+
+.asc::after {
+  border-top-width: 0;
+  border-bottom: solid 7px #212529;
+}
+
+.desc::after {
+  border-top: solid 7px #212529;
+  border-bottom-width: 0;}

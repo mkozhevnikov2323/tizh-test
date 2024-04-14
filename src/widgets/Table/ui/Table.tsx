@@ -1,10 +1,11 @@
-import { Avatar, TextField } from '@mui/material';
+import { Avatar } from '@mui/material';
 import './Table.scss';
-import { DatePicker } from 'widgets/DatePicker';
 import { ReactNode, useEffect, useState } from 'react';
 import { getUsers } from 'features/api/user/getUsers';
 import { foodList } from 'shared/lib/constants';
 import { UserSearchField, UserSearchFieldByDate } from 'features/search/user';
+import { SearchSelect } from 'widgets/SearchSelect';
+import { SortLink } from 'widgets/SortLink';
 
 export function Table() {
   const [users, setUsers] = useState([]);
@@ -121,53 +122,46 @@ export function Table() {
           <tr>
             <th>#</th>
             <th>
-              <a
-                href="/user/index?sort=id"
-                data-sort="id"
-              >
-                ID
-              </a>
+              <SortLink
+                setUsers={setUsers}
+                query="id"
+                title="ID"
+              />
             </th>
             <th>
-              <a
-                href="/user/index?sort=photo_id"
-                data-sort="photo_id"
-              >
-                Фото
-              </a>
+              <SortLink
+                setUsers={setUsers}
+                query="photo_id"
+                title="Фото"
+              />
             </th>
             <th>
-              <a
-                href="/user/index?sort=username"
-                data-sort="username"
-              >
-                Имя
-              </a>
+              <SortLink
+                setUsers={setUsers}
+                query="username"
+                title="Имя"
+              />
             </th>
             <th>
-              <a
-                className="desc"
-                href="/user/index?sort=email"
-                data-sort="email"
-              >
-                Email
-              </a>
+              <SortLink
+                setUsers={setUsers}
+                query="email"
+                title="Email"
+              />
             </th>
             <th>
-              <a
-                href="/user/index?sort=birthdate"
-                data-sort="birthdate"
-              >
-                Дата рождения
-              </a>
+              <SortLink
+                setUsers={setUsers}
+                query="birthdate"
+                title="Дата рождения"
+              />
             </th>
             <th>
-              <a
-                href="/user/index?sort=favorite_food_ids"
-                data-sort="favorite_food_ids"
-              >
-                Любимая еда
-              </a>
+              <SortLink
+                setUsers={setUsers}
+                query="favorite_food_ids"
+                title="Любимая еда"
+              />
             </th>
             <th>&nbsp;</th>
           </tr>
@@ -202,11 +196,7 @@ export function Table() {
               <UserSearchFieldByDate setUsers={setUsers} />
             </td>
             <td>
-              <TextField
-                id="outlined-search"
-                label="Search field"
-                type="search"
-              />
+              <SearchSelect setUsers={setUsers} />
             </td>
             <td>&nbsp;</td>
           </tr>

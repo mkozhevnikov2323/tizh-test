@@ -41,3 +41,29 @@ export const searchUserByDate = (
       console.log('Ошибка при отправке запроса:', error);
     });
 };
+
+export const searchUserByFood = (values: string[]): any => {
+  let url = 'http://tasks.tizh.ru/v1/user/index';
+
+  if (values.length) {
+    for (let i = 0; i < values.length; i += 1) {
+      if (i === 0) {
+        url += `?UserSearch%5BfoodIds%5D%5B%5D=${values[0]}`;
+        // eslint-disable-next-line no-continue
+        continue;
+      }
+      url += `&UserSearch%5BfoodIds%5D=${values[i]}`;
+    }
+  }
+
+  return fetch(url, {
+    method: 'GET',
+    headers: {
+      Accept: 'application/json',
+    },
+  })
+    .then((res) => res.json())
+    .catch((error) => {
+      console.log('Ошибка при отправке запроса:', error);
+    });
+};
