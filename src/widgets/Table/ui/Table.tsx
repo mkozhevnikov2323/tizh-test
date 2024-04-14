@@ -2,10 +2,11 @@ import { Avatar } from '@mui/material';
 import './Table.scss';
 import { ReactNode, useEffect, useState } from 'react';
 import { getUsers } from 'features/api/user/getUsers';
-import { foodList } from 'shared/lib/constants';
 import { UserSearchField, UserSearchFieldByDate } from 'features/search/user';
 import { SearchSelect } from 'widgets/SearchSelect';
 import { SortLink } from 'widgets/SortLink';
+import { Link } from 'react-router-dom';
+import { renderFavoriteFood } from 'shared/lib/helpers';
 
 export function Table() {
   const [users, setUsers] = useState([]);
@@ -14,16 +15,6 @@ export function Table() {
   useEffect(() => {
     getUsers().then((res) => setUsers(res));
   }, []);
-
-  const renderFavoriteFood = (favorite_food_ids: any) =>
-    Object.entries(foodList)
-      .filter(([key, value]) => favorite_food_ids.includes(key))
-      .map(([key, value], index, array) => {
-        if (index === array.length - 1) {
-          return value;
-        }
-        return `${value}, `;
-      });
 
   const renderUsers = (users: any): ReactNode =>
     users?.map(
@@ -51,8 +42,8 @@ export function Table() {
           <td>{birthdate}</td>
           <td>{renderFavoriteFood(favorite_food_ids)}</td>
           <td>
-            <a
-              href={`/user/view?id=${id}`}
+            <Link
+              to={`/view/${id}`}
               title="Просмотр"
               aria-label="Просмотр"
               data-pjax="0"
@@ -68,7 +59,7 @@ export function Table() {
                   d="M573 241C518 136 411 64 288 64S58 136 3 241a32 32 0 000 30c55 105 162 177 285 177s230-72 285-177a32 32 0 000-30zM288 400a144 144 0 11144-144 144 144 0 01-144 144zm0-240a95 95 0 00-25 4 48 48 0 01-67 67 96 96 0 1092-71z"
                 />
               </svg>
-            </a>
+            </Link>
             <a
               href={`/user/update?id=${id}`}
               title="Редактировать"
