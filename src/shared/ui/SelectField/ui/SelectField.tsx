@@ -9,6 +9,7 @@ export const SelectField = ({
   fieldType,
   setUsers,
   selectedOptionValues,
+  ...field
 }: any) => {
   const options = [
     { value: '1', label: 'Морковка' },
@@ -46,14 +47,14 @@ export const SelectField = ({
       <FormControlLabel
         control={<Checkbox />}
         label="Выбрать все"
-        checked={selectedOptions.length === options.length}
+        checked={selectedOptions?.length === options.length}
         onChange={handleSelectAll}
       />
-      {selectedOptions.length > 0 && (
+      {selectedOptions?.length > 0 && (
         <FormControlLabel
           control={<Checkbox />}
           label="Отменить выбор"
-          checked={selectedOptions.length === 0}
+          checked={selectedOptions?.length === 0}
           onChange={handleClearSelection}
         />
       )}
@@ -63,6 +64,7 @@ export const SelectField = ({
         value={selectedOptions}
         isMulti
         options={options}
+        {...field}
       />
     </div>
   );

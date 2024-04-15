@@ -1,7 +1,11 @@
 @import 'reset';
 @import 'variables/global';
 
+body {
+  font-family: Roboto, sans-serif;
+  font-weight: 300;
+}
+
 .app {
-  min-height: 100vh;
-  
+  min-height: 100vh;  
 }

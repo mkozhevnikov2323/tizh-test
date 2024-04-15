@@ -15,7 +15,7 @@ export const UploadFile = ({ register, onChange, ...field }: any) => {
     <div className="uploadFile">
       <Avatar
         alt="S"
-        src={file}
+        src={file || `http://tasks.tizh.ru/file/get?id=${field.value}`}
         sx={{
           alignSelf: 'center',
           width: '150px',

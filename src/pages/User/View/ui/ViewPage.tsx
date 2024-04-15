@@ -1,13 +1,15 @@
 import { Avatar, Button } from '@mui/material';
+import { deleteUser } from 'features/api/user/deleteUser';
 import { getUser } from 'features/api/user/getUser';
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { foodList } from 'shared/lib/constants';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { renderFavoriteFood } from 'shared/lib/helpers';
 import { Breadcrumbs } from 'widgets/Breadcrumbs';
+import './ViewPage.scss';
 
 export const ViewPage = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -32,6 +34,13 @@ export const ViewPage = () => {
     text: '',
   };
 
+  const handleDelete = () => {
+    deleteUser(id)
+      .then()
+      .catch((err) => console.log('err', err))
+      .finally(() => navigate('/'));
+  };
+
   return (
     <div className="view">
       <Breadcrumbs
@@ -50,34 +59,47 @@ export const ViewPage = () => {
         <Button
           variant="contained"
           color="error"
+          onClick={handleDelete}
         >
           Удалить
         </Button>
       </div>
 
-      <table>
+      <table className="view__table">
         <tr>
-          <td>ID</td>
+          <td>
+            <b>ID</b>
+          </td>
           <td>{id}</td>
         </tr>
         <tr>
-          <td>Имя</td>
+          <td>
+            <b>Имя</b>
+          </td>
           <td>{user?.username}</td>
         </tr>
         <tr>
-          <td>Email</td>
+          <td>
+            <b>Email</b>
+          </td>
           <td>{user?.email}</td>
         </tr>
         <tr>
-          <td>Дата рождения</td>
+          <td>
+            <b>Дата рождения</b>
+          </td>
           <td>{user?.birthdate}</td>
         </tr>
         <tr>
-          <td>Любимая еда</td>
+          <td>
+            <b>Любимая еда</b>
+          </td>
           <td>{renderFavoriteFood(user?.favorite_food_ids)}</td>
         </tr>
         <tr>
-          <td>Фото</td>
+          <td>
+            <b>Фото</b>
+          </td>
           <td>
             <Avatar
               alt="S"

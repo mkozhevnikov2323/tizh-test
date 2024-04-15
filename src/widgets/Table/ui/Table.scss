@@ -11,6 +11,12 @@
     font-size:inherit;
     color: #007bff
   }
+
+  &__delete-btn {
+    border: none;
+    background: none;
+    cursor: pointer;
+  }
 }
 
 table td {

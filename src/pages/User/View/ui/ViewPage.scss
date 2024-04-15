@@ -1,0 +1,14 @@
+.view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  &__table {
+    border-collapse: collapse;
+    width: 100%;
+
+    tr:nth-child(2n+1) {
+      background-color: rgb(0 0 0 / 5%);        
+    }
+  }
+}

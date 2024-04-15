@@ -2,6 +2,7 @@ import { searchUserByDate } from 'features/api/user/searchUser';
 import { DateField } from 'shared/ui/DateField';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
+import './userSearch.scss';
 
 export const UserSearchFieldByDate = ({ setUsers }: any) => {
   const [birthdateStart, setBirthdateStart] = useState('');
@@ -32,9 +33,15 @@ export const UserSearchFieldByDate = ({ setUsers }: any) => {
   };
 
   return (
-    <>
-      <DateField onChange={handleFirstDateChange} />
-      <DateField onChange={handleSecondDateChange} />
-    </>
+    <div className="userSearch">
+      <DateField
+        className="userSearch__date-field"
+        onChange={handleFirstDateChange}
+      />
+      <DateField
+        className="userSearch__date-field"
+        onChange={handleSecondDateChange}
+      />
+    </div>
   );
 };

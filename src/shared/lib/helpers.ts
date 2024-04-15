@@ -9,3 +9,11 @@ export const renderFavoriteFood = (favorite_food_ids: any) =>
       }
       return `${value}, `;
     });
+
+export const getUserFoodList = (favorite_food_ids: any[]) =>
+  Object.entries(foodList)
+    .filter(([key, value]) => favorite_food_ids?.includes(key))
+    .map(([key, value]) => ({
+      value: key,
+      label: value,
+    }));

@@ -5,16 +5,25 @@ import { getUsers } from 'features/api/user/getUsers';
 import { UserSearchField, UserSearchFieldByDate } from 'features/search/user';
 import { SearchSelect } from 'widgets/SearchSelect';
 import { SortLink } from 'widgets/SortLink';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { renderFavoriteFood } from 'shared/lib/helpers';
+import { deleteUser } from 'features/api/user/deleteUser';
 
 export function Table() {
   const [users, setUsers] = useState([]);
   const [searchParam, setSearchParam] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getUsers().then((res) => setUsers(res));
   }, []);
+
+  const handleDelete = (event: any) => {
+    deleteUser(event.target.ariaLabel)
+      .then()
+      .catch((err) => console.log('err', err))
+      .finally(() => navigate('/', { replace: true }));
+  };
 
   const renderUsers = (users: any): ReactNode =>
     users?.map(
@@ -60,8 +69,8 @@ export function Table() {
                 />
               </svg>
             </Link>
-            <a
-              href={`/user/update?id=${id}`}
+            <Link
+              to={`/update/${id}`}
               title="Редактировать"
               aria-label="Редактировать"
               data-pjax="0"
@@ -77,27 +86,30 @@ export function Table() {
                   d="M498 142l-46 46c-5 5-13 5-17 0L324 77c-5-5-5-12 0-17l46-46c19-19 49-19 68 0l60 60c19 19 19 49 0 68zm-214-42L22 362 0 484c-3 16 12 30 28 28l122-22 262-262c5-5 5-13 0-17L301 100c-4-5-12-5-17 0zM124 340c-5-6-5-14 0-20l154-154c6-5 14-5 20 0s5 14 0 20L144 340c-6 5-14 5-20 0zm-36 84h48v36l-64 12-32-31 12-65h36v48z"
                 />
               </svg>
-            </a>
-            <a
-              href={`/user/delete?id=${id}`}
-              title="Удалить"
-              aria-label="Удалить"
+            </Link>
+            <button
+              type="button"
+              className="table__delete-btn"
+              aria-label={id}
               data-pjax="0"
               data-confirm="Вы уверены, что хотите удалить этот элемент?"
               data-method="post"
+              onClick={handleDelete}
             >
               <svg
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 448 512"
                 className="table__svg"
+                id={id}
+                aria-label={id}
               >
                 <path
                   fill="currentColor"
                   d="M32 464a48 48 0 0048 48h288a48 48 0 0048-48V128H32zm272-256a16 16 0 0132 0v224a16 16 0 01-32 0zm-96 0a16 16 0 0132 0v224a16 16 0 01-32 0zm-96 0a16 16 0 0132 0v224a16 16 0 01-32 0zM432 32H312l-9-19a24 24 0 00-22-13H167a24 24 0 00-22 13l-9 19H16A16 16 0 000 48v32a16 16 0 0016 16h416a16 16 0 0016-16V48a16 16 0 00-16-16z"
                 />
               </svg>
-            </a>
+            </button>
           </td>
         </tr>
       ),

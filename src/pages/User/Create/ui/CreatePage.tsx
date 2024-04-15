@@ -3,12 +3,12 @@ import Button from '@mui/material/Button';
 import './CreatePage.scss';
 import { DateField } from 'shared/ui/DateField';
 import { UploadFile } from 'features/uploadFile';
-import Select from 'react-select';
-import { createUser } from 'features/api/user/createUser';
 import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { TextField } from 'shared/ui/TextField';
 import { SelectField } from 'shared/ui/SelectField';
+import { createUser } from 'features/api/user/createUser';
+import { useNavigate } from 'react-router-dom';
 
 interface IFormInput {
   avatar: any;
@@ -29,6 +29,7 @@ export const CreatePage = () => {
     },
   });
 
+  const navigate = useNavigate();
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [selectedOptionValues, setSelectedOptionValues] = useState([]);
 
@@ -47,7 +48,6 @@ export const CreatePage = () => {
   }, [selectedOptions]);
 
   const onSubmit: SubmitHandler<IFormInput> = (data: any) => {
-    console.log('data', data);
     const formData = new FormData();
     formData.append('upload_photo', data.avatar[0]);
     formData.append('username', data.firstName);
@@ -57,17 +57,10 @@ export const CreatePage = () => {
       formData.append('favorite_food_ids[]', value);
     }
 
-    fetch('http://tasks.tizh.ru/v1/user/create', {
-      method: 'POST',
-      mode: 'no-cors',
-      body: formData,
-    })
-      .then((response) => {
-        console.log('Request succeeded with JSON response', response);
-      })
-      .catch((error) => {
-        console.log('Request failed', error);
-      });
+    createUser(formData)
+      .then()
+      .catch((err: any) => console.log('err', err))
+      .finally(() => navigate('/'));
   };
 
   return (
